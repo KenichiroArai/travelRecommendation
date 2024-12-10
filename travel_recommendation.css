@@ -51,7 +51,7 @@ footer {
 }
 
 .main-content {
-    text-align: center;
+    text-align: left;
     margin: 50px auto;
     background-color: rgba(255, 255, 255, 0.8);
     padding: 20px;
@@ -59,6 +59,83 @@ footer {
     float: left;
     margin-left: 10px;
     border-radius: 10px;
+}
+
+.main-content h1 {
+    margin-bottom: 20px;
+}
+
+.main-content p {
+    margin-bottom: 20px;
+}
+
+.main-content button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.about-us-content {
+    text-align: left;
+    margin: 50px auto;
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 30px;
+    width: 95%;
+    float: left;
+    margin-left: 20px;
+    border-radius: 20px;
+}main
+
+.about-us-content h1 {
+    margin-bottom: 20px;
+}
+
+.about-us-content p {
+    margin-bottom: 20px;
+}
+
+.about-us-content button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.our-team-content {
+    text-align: left;
+    margin: 20px auto;
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 10px;
+    width: 95%;
+    float: left;
+    margin-left: 50px;
+    border-radius: 20px;
+}
+
+.our-team-content h2 {
+    font-size: 3em;
+    margin-bottom: 20px;
+}
+
+.our-team-content p {
+    margin-bottom: 20px;
+}
+
+.our-team-content button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
 }
 
 button {
