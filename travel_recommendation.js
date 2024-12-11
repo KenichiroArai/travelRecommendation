@@ -15,76 +15,17 @@ function searchRecommendations() {
             console.log('Fetched Data:', data);
             let results = [];
 
-            // データの各カテゴリーを検索
             Object.keys(data).forEach(category => {
                 const categoryData = data[category];
 
-                // カテゴリー名にキーワードが含まれる場合
                 if (category.toLowerCase().includes(keyword)) {
-                    // 配列の場合
                     if (Array.isArray(categoryData)) {
                         categoryData.forEach(item => {
+                            console.log(item);
                             results.push({
                                 ...item,
                                 category: category
                             });
-                        });
-                    }
-                    // オブジェクトの配列（ネストされたデータ）の場合
-                    else if (typeof categoryData === 'object') {
-                        Object.values(categoryData).forEach(item => {
-                            if (Array.isArray(item.cities)) {
-                                item.cities.forEach(city => {
-                                    results.push({
-                                        ...city,
-                                        parentName: item.name,
-                                        category: category
-                                    });
-                                });
-                            } else {
-                                results.push({
-                                    ...item,
-                                    category: category
-                                });
-                            }
-                        });
-                    }
-                }
-                // カテゴリー内のデータを検索
-                else {
-                    // 配列の場合
-                    if (Array.isArray(categoryData)) {
-                        categoryData.forEach(item => {
-                            if (itemMatchesKeyword(item, keyword)) {
-                                results.push({
-                                    ...item,
-                                    category: category
-                                });
-                            }
-                        });
-                    }
-                    // オブジェクトの配列（ネストされたデータ）の場合
-                    else if (typeof categoryData === 'object') {
-                        Object.values(categoryData).forEach(item => {
-                            if (Array.isArray(item.cities)) {
-                                // 親要素の名前でマッチ
-                                const parentMatches = item.name.toLowerCase().includes(keyword);
-                                
-                                item.cities.forEach(city => {
-                                    if (parentMatches || itemMatchesKeyword(city, keyword)) {
-                                        results.push({
-                                            ...city,
-                                            parentName: item.name,
-                                            category: category
-                                        });
-                                    }
-                                });
-                            } else if (itemMatchesKeyword(item, keyword)) {
-                                results.push({
-                                    ...item,
-                                    category: category
-                                });
-                            }
                         });
                     }
                 }
@@ -130,10 +71,12 @@ function displayResults(results) {
     const container = document.getElementById('result-container');
     container.innerHTML = '';
 
-    results.forEach(item => {
+    // 構造を確認して適切なデータを取得
+    const items = getDisplayItems(results);
+
+    items.forEach(item => {
         const div = document.createElement('div');
 
-        // Extract timezone from the item; assume `item` has a `timeZone` property
         const options = { timeZone: item.timeZone, hour12: true, hour: 'numeric', minute: 'numeric', second: 'numeric' };
         const time = new Date().toLocaleTimeString('en-US', options);
 
@@ -148,4 +91,31 @@ function displayResults(results) {
     });
 
     console.log('Results displayed');
+}
+
+function getDisplayItems(data) {
+    // データが配列で、最初の要素にcitiesプロパティがある場合
+    if (Array.isArray(data) && data.length > 0 && data[0].cities) {
+        // countriesの構造の場合、全ての都市を抽出
+        return data.reduce((acc, country) => {
+            return acc.concat(country.cities);
+        }, []);
+    }
+
+    // データがオブジェクトで、countriesプロパティがある場合
+    if (data.countries) {
+        // countriesの構造の場合、全ての都市を抽出
+        return data.countries.reduce((acc, country) => {
+            return acc.concat(country.cities);
+        }, []);
+    }
+
+    // その他の構造の場合（templesやbeachesなど）
+    if (!Array.isArray(data)) {
+        // オブジェクトの全ての配列を結合
+        return Object.values(data).flat();
+    }
+
+    // すでに適切な形式の配列の場合
+    return data;
 }
