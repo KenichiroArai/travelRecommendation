@@ -15,7 +15,7 @@ function searchRecommendations() {
             let results = [];
             data.countries.forEach(country => {
                 country.cities.forEach(city => {
-                    if (city.name.toLowerCase().includes(keyword)) {
+                    if (city.description.toLowerCase().includes(keyword)) {
                         results.push({
                             ...city,
                             countryName: country.name
