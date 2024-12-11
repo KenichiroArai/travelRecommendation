@@ -8,26 +8,104 @@ fetch('travel_recommendation_api.json')
 function searchRecommendations() {
     const keyword = document.getElementById('search-input').value.toLowerCase();
     console.log('searchRecommendations', keyword);
+    
     fetch('travel_recommendation_api.json')
         .then(response => response.json())
         .then(data => {
             console.log('Fetched Data:', data);
             let results = [];
-            data.countries.forEach(country => {
-                country.cities.forEach(city => {
-                    if (city.description.toLowerCase().includes(keyword)) {
-                        results.push({
-                            ...city,
-                            countryName: country.name
+
+            // データの各カテゴリーを検索
+            Object.keys(data).forEach(category => {
+                const categoryData = data[category];
+
+                // カテゴリー名にキーワードが含まれる場合
+                if (category.toLowerCase().includes(keyword)) {
+                    // 配列の場合
+                    if (Array.isArray(categoryData)) {
+                        categoryData.forEach(item => {
+                            results.push({
+                                ...item,
+                                category: category
+                            });
                         });
                     }
-                });
+                    // オブジェクトの配列（ネストされたデータ）の場合
+                    else if (typeof categoryData === 'object') {
+                        Object.values(categoryData).forEach(item => {
+                            if (Array.isArray(item.cities)) {
+                                item.cities.forEach(city => {
+                                    results.push({
+                                        ...city,
+                                        parentName: item.name,
+                                        category: category
+                                    });
+                                });
+                            } else {
+                                results.push({
+                                    ...item,
+                                    category: category
+                                });
+                            }
+                        });
+                    }
+                }
+                // カテゴリー内のデータを検索
+                else {
+                    // 配列の場合
+                    if (Array.isArray(categoryData)) {
+                        categoryData.forEach(item => {
+                            if (itemMatchesKeyword(item, keyword)) {
+                                results.push({
+                                    ...item,
+                                    category: category
+                                });
+                            }
+                        });
+                    }
+                    // オブジェクトの配列（ネストされたデータ）の場合
+                    else if (typeof categoryData === 'object') {
+                        Object.values(categoryData).forEach(item => {
+                            if (Array.isArray(item.cities)) {
+                                // 親要素の名前でマッチ
+                                const parentMatches = item.name.toLowerCase().includes(keyword);
+                                
+                                item.cities.forEach(city => {
+                                    if (parentMatches || itemMatchesKeyword(city, keyword)) {
+                                        results.push({
+                                            ...city,
+                                            parentName: item.name,
+                                            category: category
+                                        });
+                                    }
+                                });
+                            } else if (itemMatchesKeyword(item, keyword)) {
+                                results.push({
+                                    ...item,
+                                    category: category
+                                });
+                            }
+                        });
+                    }
+                }
             });
 
             console.log('Filtered Results:', results);
             displayResults(results);
         })
         .catch(error => console.error('Error:', error));
+}
+
+// アイテムがキーワードにマッチするかチェックする補助関数
+function itemMatchesKeyword(item, keyword) {
+    return (
+        (item.name && item.name.toLowerCase().includes(keyword)) ||
+        (item.description && item.description.toLowerCase().includes(keyword)) ||
+        Object.values(item).some(value => 
+            typeof value === 'string' && 
+            value.toLowerCase().includes(keyword)
+        )
+    );
 }
 
 function clearResults() {
