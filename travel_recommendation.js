@@ -55,10 +55,15 @@ function displayResults(results) {
     results.forEach(item => {
         const div = document.createElement('div');
 
+        // Extract timezone from the item; assume `item` has a `timeZone` property
+        const options = { timeZone: item.timeZone, hour12: true, hour: 'numeric', minute: 'numeric', second: 'numeric' };
+        const time = new Date().toLocaleTimeString('en-US', options);
+
         div.innerHTML = `
             <h3>${item.name}</h3>
             <img src="${item.imageUrl}" alt="${item.name}">
             <p>${item.description}</p>
+            <p>${time}</p>
         `;
 
         container.appendChild(div);

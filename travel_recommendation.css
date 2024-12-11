@@ -43,7 +43,7 @@ nav a {
 
 footer {
     text-align: center;
-    padding: 10px;
+    padding: 0px;
     background-color: rgba(255, 255, 255, 0.9);
     position: fixed;
     width: 100%;
@@ -56,7 +56,6 @@ footer {
     background-color: rgba(255, 255, 255, 0.8);
     padding: 20px;
     width: 50%;
-    /* float: left; */
     margin-left: 10px;
     border-radius: 10px;
 }
@@ -88,7 +87,7 @@ footer {
     float: left;
     margin-left: 20px;
     border-radius: 20px;
-}main
+}
 
 .about-us-content h1 {
     margin-bottom: 20px;
@@ -212,7 +211,7 @@ button:hover {
 }
 
 #result-container {
-    clear: both; /* add */
+    clear: both;
     margin: 20px auto;
     padding: 20px;
     background-color: rgba(255, 255, 255, 0.9);
