@@ -138,6 +138,57 @@ footer {
     font-size: 16px;
 }
 
+.contact-us-content {
+    display: flex;
+    justify-content: center; /* Center the whole section horizontally */
+    align-items: center; /* Center the contents vertically (if needed) */
+    margin: 50px auto; /* Center the section within the page */
+    max-width: 800px; /* Optional: Control the max width of the section */
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.8); /* Background for better readability */
+    border-radius: 10px; /* Added for aesthetic reasons */
+}
+
+.contact-us-left {
+    text-align: left; /* Align text on the left side */
+    flex: 1;
+    margin-right: 20px;
+}
+
+.contact-us-right {
+    flex: 1;
+}
+
+.contact-us-right form {
+    display: flex;
+    flex-direction: column; /* Keep the existing vertical arrangement */
+    align-items: stretch; /* Ensure inputs take the available width */
+}
+
+.contact-us-right label {
+    margin-top: 10px;
+}
+
+.contact-us-right input,
+.contact-us-right textarea,
+.contact-us-right button {
+    margin-top: 5px;
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.contact-us-right button {
+    background-color: #4CAF50;
+    color: white;
+    cursor: pointer;
+}
+
+.contact-us-right button:hover {
+    background-color: #45a049;
+}
+
 button {
     padding: 10px 20px;
     background-color: #4CAF50;
